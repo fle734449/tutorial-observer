@@ -1,11 +1,11 @@
-package observer1;
+package observer2;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class DisplayColors implements ChangeListener {
+public class DisplayColors {
 
     public static void main(String[] args) {
         SwingFacade.launch(new DisplayColors().mainPanel(), "Compute Complementary Colors");
@@ -14,28 +14,29 @@ public class DisplayColors implements ChangeListener {
     protected ColorPanel originalColorPanel;
     protected ColorPanel complementaryColorPanel;
 
-    protected JSlider hueSlider;
-    protected JSlider saturationSlider;
-    protected JSlider brightnessSlider;
+    protected static JSlider hueSlider;
+    protected static JSlider saturationSlider;
+    protected static JSlider brightnessSlider;
 
     protected JLabel hueValueLabel;
     protected JLabel saturationValueLabel;
     protected JLabel brightnessValueLabel;
 
     protected JPanel colorsPanel() {
-        JPanel p = new JPanel();
-        p.setLayout(new GridLayout(1, 2));
-        originalColorPanel = createColorPanel(Color.getHSBColor(0, (float) .5, (float) .5));
-        p.add(SwingFacade.createTitledPanel("Original Color", originalColorPanel));
-        complementaryColorPanel = createColorPanel(Color.getHSBColor((float) .5, (float) .5, (float) .5));
-        p.add(SwingFacade.createTitledPanel("Complementary Color", complementaryColorPanel));
-        return p;
+    	 JPanel p = new JPanel();
+         p.setLayout(new GridLayout(1, 2));
+         originalColorPanel =  new OriginalColorPanel(Color.getHSBColor(0, (float) .5, (float) .5));
+         originalColorPanel.setPreferredSize(new Dimension(300, 200));
+         p.add(SwingFacade.createTitledPanel("Original Color", originalColorPanel));
+         complementaryColorPanel = new ComplementaryColorPanel(Color.getHSBColor((float) .5, (float) .5, (float) .5));
+         complementaryColorPanel.setPreferredSize(new Dimension(300, 200));
+         p.add(SwingFacade.createTitledPanel("Complementary Color", complementaryColorPanel));
+         return p;
     }
 
     protected JPanel mainPanel() {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(2, 1));
-        JPanel colorsPanel = colorsPanel();
         JPanel subP = new JPanel();
         subP.setLayout(new GridLayout(3, 1));
         hueSlider = slider();
@@ -46,6 +47,9 @@ public class DisplayColors implements ChangeListener {
         brightnessSlider = slider();
         brightnessSlider.setValue(50);
         subP.add(sliderBox("B", brightnessSlider, brightnessValueLabel));
+        
+        JPanel colorsPanel = colorsPanel();
+        
         p.add(subP);
         p.add(colorsPanel);
         return p;
@@ -57,7 +61,6 @@ public class DisplayColors implements ChangeListener {
         // You need to make it possible for the app to get the slider values out.
 
         slider.setValue(slider.getMinimum());
-        slider.addChangeListener(this);
         return slider;
     }
 
@@ -80,6 +83,7 @@ public class DisplayColors implements ChangeListener {
         return b;
     }
 
+    /*
     protected ColorPanel createColorPanel(Color initialColor) {
         ColorPanel colorPanel = new ColorPanel(initialColor);
         colorPanel.setPreferredSize(new Dimension(300, 200));
@@ -104,6 +108,7 @@ public class DisplayColors implements ChangeListener {
             complementaryColorPanel.setColor(complementaryColor);
 
         }
-    }
+    }*/
+    
 }
     
